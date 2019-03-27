@@ -132,6 +132,18 @@ class Operator(Callable):
     def __init__(self, expressions, **kwargs):
         expressions = as_tuple(expressions)
 
+<<<<<<< HEAD
+=======
+        ## Gather implicit expressions
+        #implicit_expressions = []
+        #for e in expressions:
+            #ie = e._implicit_equations
+            #if bool(ie):
+                #for i in ie:
+                    #implicit_expressions.append(i)
+        #expressions = as_tuple(implicit_expressions) + expressions
+
+>>>>>>> updates.
         # Input check
         if any(not isinstance(i, Eq) for i in expressions):
             raise InvalidOperator("Only `devito.Eq` expressions are allowed.")

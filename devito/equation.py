@@ -64,6 +64,17 @@ class Eq(sympy.Eq):
         kwargs['evaluate'] = False
         obj = sympy.Eq.__new__(cls, lhs, rhs, **kwargs)
         obj._subdomain = subdomain
+<<<<<<< HEAD
+=======
+        if bool(implicit_dims):
+            obj._implicit_dims = as_tuple(implicit_dims)
+            #obj._implicit_equations = None
+        else:
+            _, implicit_dims = obj._form_implicit_structs()
+            #implicit_equations, implicit_dims = obj._form_implicit_structs()
+            #obj._implicit_equations = implicit_equations
+            obj._implicit_dims = as_tuple(implicit_dims)
+>>>>>>> updates.
         obj._substitutions = coefficients
         obj._implicit_dims = as_tuple(implicit_dims)
         if obj._uses_symbolic_coefficients:

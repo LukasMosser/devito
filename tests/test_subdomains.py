@@ -46,8 +46,14 @@ class TestSubdomains(object):
         stencil = Eq(f.forward, solve(Eq(f.dt, 1), f.forward),
                      subdomain=grid.subdomains['inner'])
 
+<<<<<<< HEAD
         # FIXME: Need to fix the need for dle='noop'
         op = Operator(stencil, dle='noop')
+=======
+        op = Operator(stencil)
+        #from IPython import embed; embed()
+
+>>>>>>> updates.
         op(time_m=0, time_M=9, dt=1)
         result = f.data[0]
 
