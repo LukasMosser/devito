@@ -51,7 +51,6 @@ class TestSubdomains(object):
         op = Operator(stencil, dle='noop')
 =======
         op = Operator(stencil)
-        #from IPython import embed; embed()
 
 >>>>>>> updates.
         op(time_m=0, time_M=9, dt=1)
