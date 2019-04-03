@@ -21,6 +21,10 @@ from devito.symbolics import indexify
 from devito.tools import (Signer, ReducerMap, as_tuple, flatten, filter_ordered,
                           filter_sorted, split)
 from devito.types import Dimension
+<<<<<<< HEAD
+=======
+from devito.ir import Cluster
+>>>>>>> Updates.
 
 __all__ = ['Operator']
 
@@ -134,6 +138,7 @@ class Operator(Callable):
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         ## Gather implicit expressions
         #implicit_expressions = []
@@ -155,6 +160,8 @@ class Operator(Callable):
 >>>>>>> Revert "updates."
 
 >>>>>>> updates.
+=======
+>>>>>>> Updates.
         # Input check
         if any(not isinstance(i, Eq) for i in expressions):
             raise InvalidOperator("Only `devito.Eq` expressions are allowed.")
