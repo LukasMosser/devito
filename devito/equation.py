@@ -5,6 +5,7 @@ import sympy
 from cached_property import cached_property
 
 from devito.finite_differences import default_rules
+from devito.tools import as_tuple
 
 __all__ = ['Eq', 'Inc', 'solve']
 
@@ -28,13 +29,13 @@ class Eq(sympy.Eq):
     subdomain : SubDomain, optional
         To restrict the computation of the Eq to a particular sub-region in the
         computational domain.
-    coefficients : Substitutions, optional
-        Can be used to replace symbolic finite difference weights with user
-        defined weights.
     implicit_dims : Dimension or list of Dimension, optional
         An ordered list of Dimensions that do not explicitly appear in either the
         left-hand side or in the right-hand side, but that should be honored when
         constructing an Operator.
+    coefficients : Substitutions, optional
+        Can be used to replace symbolic finite difference weights with user
+        defined weights.
 
     Examples
     --------
@@ -76,7 +77,8 @@ class Eq(sympy.Eq):
 >>>>>>> updates.
 =======
     # FIXME: Remove implicit_dims from ags list and adjust connected tests.
-    def __new__(cls, lhs, rhs=0, subdomain=None, coefficients=None, **kwargs):
+    def __new__(cls, lhs, rhs=0, subdomain=None, coefficients=None,
+                implicit_dims=None, **kwargs):
         kwargs['evaluate'] = False
         obj = sympy.Eq.__new__(cls, lhs, rhs, **kwargs)
         obj._subdomain = subdomain
@@ -130,6 +132,7 @@ class Eq(sympy.Eq):
 
     def xreplace(self, rules):
 <<<<<<< HEAD
+<<<<<<< HEAD
         return self.func(self.lhs.xreplace(rules), rhs=self.rhs.xreplace(rules),
                          subdomain=self._subdomain, implicit_dims=self._implicit_dims)
 =======
@@ -142,6 +145,10 @@ class Eq(sympy.Eq):
             pass
         return eq
 >>>>>>> Updates.
+=======
+        return self.func(self.lhs.xreplace(rules), rhs=self.rhs.xreplace(rules),
+                         subdomain=self._subdomain, implicit_dims=self.implicit_dims)
+>>>>>>> Fixes.
 
     def __str__(self):
         return "%s(%s, %s)" % (self.__class__.__name__, self.lhs, self.rhs)
@@ -184,7 +191,7 @@ class Inc(Eq):
     >>> f = Function(name='f', grid=grid)
     >>> g = Function(name='g', shape=(10, 4, 4), dimensions=(i, x, y))
     >>> Inc(f, g)
-    Inc(f(x, y), g(i, x, y))eq
+    Inc(f(x, y), g(i, x, y))
 
     Notes
     -----
