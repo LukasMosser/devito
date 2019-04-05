@@ -2,8 +2,12 @@ import numpy as np
 from math import floor
 
 from conftest import skipif
+<<<<<<< HEAD
 from devito import (Grid, Function, TimeFunction, Eq, solve, Operator, SubDomainSet,
                     Dimension)
+=======
+from devito import Grid, Function, TimeFunction, Eq, solve, Operator, SubDomainSet
+>>>>>>> Fixes + tidying + additional test.
 
 pytestmark = skipif(['yask', 'ops'])
 
@@ -75,6 +79,12 @@ class TestSubdomains(object):
         class MySubdomains(SubDomainSet):
             name = 'mydomains'
 
+<<<<<<< HEAD
+=======
+            def define(self, dimensions):
+                return {d: ('middle', 0, 0) for d in dimensions}
+
+>>>>>>> Fixes + tidying + additional test.
         bounds_xm = np.array([1, Nx/2+1], dtype=np.int32)
         bounds_xM = np.array([Nx/2+1, 1], dtype=np.int32)
         bounds_ym = 1
@@ -91,7 +101,12 @@ class TestSubdomains(object):
         eq2 = Eq(g, g+1)
         eq3 = Eq(h, h+2, subdomain=grid.subdomains['mydomains'])
 
+<<<<<<< HEAD
         op = Operator([eq1, eq2, eq3], dle='noop')
+=======
+        op = Operator([eq1, eq2, eq3])
+
+>>>>>>> Fixes + tidying + additional test.
         op.apply()
 
         expected1 = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -110,6 +125,7 @@ class TestSubdomains(object):
         assert((np.array(f.data) == expected1).all())
         assert((np.array(g.data) == expected2).all())
         assert((np.array(h.data) == expected3).all())
+<<<<<<< HEAD
 
     def test_multi_sets(self):
         """
@@ -169,3 +185,5 @@ class TestSubdomains(object):
                              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype=np.int32)
 
         assert((np.array(f.data[:]+g.data[:]) == expected).all())
+=======
+>>>>>>> Fixes + tidying + additional test.
