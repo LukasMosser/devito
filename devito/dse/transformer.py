@@ -7,7 +7,15 @@ from devito.tools import flatten
 __all__ = ['dse_registry', 'rewrite']
 
 
+<<<<<<< HEAD
 dse_registry = ('basic', 'advanced', 'aggressive')
+=======
+# Skewing rewriter
+
+#
+
+dse_registry = ('basic', 'advanced', 'speculative', 'aggressive')
+>>>>>>> Init Sims diff
 
 modes = {
     'basic': BasicRewriter,

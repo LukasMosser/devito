@@ -14,6 +14,7 @@ from devito.types import IncrDimension, Scalar
 
 __all__ = ['BlockDimension', 'fold_blockable_tree', 'unfold_blocked_tree']
 
+# __init__
 
 def fold_blockable_tree(iet, blockinner=True):
     """
