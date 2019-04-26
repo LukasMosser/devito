@@ -29,13 +29,13 @@ class Eq(sympy.Eq):
     subdomain : SubDomain, optional
         To restrict the computation of the Eq to a particular sub-region in the
         computational domain.
+    coefficients : Substitutions, optional
+        Can be used to replace symbolic finite difference weights with user
+        defined weights.
     implicit_dims : Dimension or list of Dimension, optional
         An ordered list of Dimensions that do not explicitly appear in either the
         left-hand side or in the right-hand side, but that should be honored when
         constructing an Operator.
-    coefficients : Substitutions, optional
-        Can be used to replace symbolic finite difference weights with user
-        defined weights.
 
     Examples
     --------
@@ -59,30 +59,11 @@ class Eq(sympy.Eq):
 
     is_Increment = False
 
-<<<<<<< HEAD
     def __new__(cls, lhs, rhs=0, subdomain=None, coefficients=None, implicit_dims=None,
                 **kwargs):
         kwargs['evaluate'] = False
         obj = sympy.Eq.__new__(cls, lhs, rhs, **kwargs)
         obj._subdomain = subdomain
-<<<<<<< HEAD
-=======
-        if bool(implicit_dims):
-            obj._implicit_dims = as_tuple(implicit_dims)
-            obj._implicit_equations = None
-        else:
-            implicit_equations, implicit_dims = obj._form_implicit_structs()
-            obj._implicit_equations = implicit_equations
-            obj._implicit_dims = as_tuple(implicit_dims)
->>>>>>> updates.
-=======
-    # FIXME: Remove implicit_dims from ags list and adjust connected tests.
-    def __new__(cls, lhs, rhs=0, subdomain=None, coefficients=None,
-                implicit_dims=None, **kwargs):
-        kwargs['evaluate'] = False
-        obj = sympy.Eq.__new__(cls, lhs, rhs, **kwargs)
-        obj._subdomain = subdomain
->>>>>>> Updates.
         obj._substitutions = coefficients
         obj._implicit_dims = as_tuple(implicit_dims)
         if obj._uses_symbolic_coefficients:
@@ -131,24 +112,8 @@ class Eq(sympy.Eq):
             TypeError('Failed to retrieve symbolic functions')
 
     def xreplace(self, rules):
-<<<<<<< HEAD
-<<<<<<< HEAD
         return self.func(self.lhs.xreplace(rules), rhs=self.rhs.xreplace(rules),
                          subdomain=self._subdomain, implicit_dims=self._implicit_dims)
-=======
-        eq = Eq(self.lhs.xreplace(rules), rhs=self.rhs.xreplace(rules),
-                subdomain=self._subdomain)
-        eq._substitutions = self._substitutions
-        try:
-            eq._implicit_dims = self._implicit_dims
-        except AttributeError:
-            pass
-        return eq
->>>>>>> Updates.
-=======
-        return self.func(self.lhs.xreplace(rules), rhs=self.rhs.xreplace(rules),
-                         subdomain=self._subdomain, implicit_dims=self.implicit_dims)
->>>>>>> Fixes.
 
     def __str__(self):
         return "%s(%s, %s)" % (self.__class__.__name__, self.lhs, self.rhs)

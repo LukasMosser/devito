@@ -55,12 +55,7 @@ def rewrite(clusters, mode='advanced'):
     if mode is None or mode == 'noop':
         return clusters
     elif mode not in dse_registry:
-<<<<<<< HEAD
         warning("Unknown rewrite mode(s) %s" % mode)
-=======
-        raise ValueError("Unknown rewrite 'mode' %s." % type(mode))
-        #dse_warning("Unknown rewrite mode(s) %s" % mode)
->>>>>>> On debugging for loop bounds
         return clusters
 
     # We use separate rewriters for dense and sparse clusters; sparse clusters have

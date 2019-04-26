@@ -60,16 +60,7 @@ if __name__ == "__main__":
                         choices=['centered', 'staggered'],
                         help="Choice of finite-difference kernel")
     parser.add_argument("-dse", default="advanced",
-<<<<<<< HEAD
-<<<<<<< HEAD
                         choices=["noop", "basic", "advanced", "aggressive"],
-=======
-                        choices=["noop", "basic", "advanced", "skewing",
-                        "speculative", "aggressive"],
->>>>>>> Success in skewing expression by a factor of t
-=======
-                        choices=["noop", "basic", "advanced", "skewing", "aggressive"],
->>>>>>> Updates.
                         help="Devito symbolic engine (DSE) mode")
     parser.add_argument("-dle", default="advanced",
                         choices=["noop", "advanced", "speculative"],

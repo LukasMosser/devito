@@ -5,12 +5,29 @@ from devito.ir import (DataSpace, IterationSpace, Interval, IntervalGroup, Clust
                        ClusterGroup, detect_accesses, build_intervals, groupby)
 from devito.dse.aliases import collect
 from devito.dse.backends import BasicRewriter, dse_pass
+<<<<<<< HEAD
+from devito.symbolics import estimate_cost, xreplace_constrained, iq_timeinvariant
+=======
+<<<<<<< HEAD
+from devito.symbolics import (estimate_cost, xreplace_constrained, iq_timeinvariant,
+                            xreplace_indices)
+>>>>>>> Init Sims diff
+from devito.dse.manipulation import (common_subexprs_elimination, collect_nested,
+                                     compact_temporaries)
+from devito.types import Array, Scalar
+
+<<<<<<< HEAD
+# class SkewingRewriter(AdvancedRewriter):
+=======
+=======
 from devito.symbolics import estimate_cost, xreplace_constrained, iq_timeinvariant
 from devito.dse.manipulation import (common_subexprs_elimination, collect_nested,
                                      compact_temporaries)
 from devito.types import Array, Scalar
 
-# class SkewingRewriter(AdvancedRewriter):
+# class SkewingRewriter(AdvancedRewriter): 
+>>>>>>> Init Sims diff
+>>>>>>> Init Sims diff
 
 class AdvancedRewriter(BasicRewriter):
 
@@ -56,7 +73,12 @@ class AdvancedRewriter(BasicRewriter):
     @dse_pass
     def _factorize(self, cluster, *args, **kwargs):
         """
+<<<<<<< HEAD
         Collect terms in each expr in exprs based on the following heuristic:
+=======
+<<<<<<< HEAD
+        Factorize trascendental functions, symbolic powers, numeric coefficients.
+>>>>>>> Init Sims diff
 
             * Collect all literals;
             * Collect all temporaries produced by CSE;
@@ -279,6 +301,8 @@ class SkewingRewriter(BasicRewriter):
     @dse_pass
     def _factorize(self, cluster, *args, **kwargs):
         """
+=======
+>>>>>>> Init Sims diff
         Collect terms in each expr in exprs based on the following heuristic:
 
             * Collect all literals;
@@ -287,7 +311,11 @@ class SkewingRewriter(BasicRewriter):
               ``self.MIN_COST_FACTORIZE``, then this is applied recursively until
               no more factorization opportunities are available.
         """
+<<<<<<< HEAD
         print("Factorize")
+=======
+
+>>>>>>> Init Sims diff
         processed = []
         for expr in cluster.exprs:
             handle = collect_nested(expr)
@@ -333,7 +361,10 @@ class SkewingRewriter(BasicRewriter):
            temp1 = 2.0*ti[x,y,z]
            temp2 = 3.0*ti[x,y,z+1]
         """
+<<<<<<< HEAD
         print("Eliminate inter-stencil redundancies")
+=======
+>>>>>>> Init Sims diff
         if cluster.is_sparse:
             return cluster
 
@@ -369,7 +400,11 @@ class SkewingRewriter(BasicRewriter):
             intervals = [Interval(i.dim, *alias.relaxed_diameter.get(i.dim, i.limits))
                          for i in cluster.ispace.intervals]
             ispace = IterationSpace(intervals, sub_iterators, directions)
+<<<<<<< HEAD
             print(intervals)
+=======
+
+>>>>>>> Init Sims diff
             # Optimization: perhaps we can lift the cluster outside the time dimension
             if all(time_invariants[i] for i in alias.aliased):
                 ispace = ispace.project(lambda i: not i.is_Time)
@@ -377,7 +412,10 @@ class SkewingRewriter(BasicRewriter):
             # Build a symbolic function for /alias/
             intervals = ispace.intervals
             halo = [(abs(intervals[i].lower), abs(intervals[i].upper)) for i in indices]
+<<<<<<< HEAD
             # print(abs(intervals[i].lower))
+=======
+>>>>>>> Init Sims diff
             function = Array(name=template(), dimensions=indices, halo=halo)
             access = tuple(i - intervals[i].lower for i in indices)
             expression = Eq(function[access], origin)
@@ -393,7 +431,16 @@ class SkewingRewriter(BasicRewriter):
 
             # Add substitution rules
             for aliased, distance in alias.with_distance:
+<<<<<<< HEAD
                 access = [i - intervals[i].lower + j for i, j in distance if i in indices]
+=======
+<<<<<<< HEAD
+                access = [i - intervals[i].lower + distance[i] for i in distance.labels
+                          if i in indices]
+=======
+                access = [i - intervals[i].lower + j for i, j in distance if i in indices]
+>>>>>>> Init Sims diff
+>>>>>>> Init Sims diff
                 rules[candidates[aliased]] = function[access]
                 rules[aliased] = function[access]
 
