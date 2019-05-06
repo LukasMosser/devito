@@ -355,7 +355,7 @@ class Iteration(Node):
     _traversable = ['nodes']
 
     def __init__(self, nodes, dimension, limits, offsets=None, direction=None,
-                 properties=None, pragmas=None, uindices=None):
+                 properties=None, pragmas=None, uindices=None, skew=None):
         self.nodes = as_tuple(nodes)
         self.dim = dimension
         self.index = self.dim.name
@@ -380,7 +380,12 @@ class Iteration(Node):
         self.properties = as_tuple(filter_sorted(properties))
         self.pragmas = as_tuple(pragmas)
         self.uindices = as_tuple(uindices)
+<<<<<<< HEAD
         assert all(i.is_Derived and self.dim in i._defines for i in self.uindices)
+=======
+        assert all(i.is_Derived and i.root is self.dim for i in self.uindices)
+        self.skew = skew if skew else (0, self.dim)
+>>>>>>> ir
 
     def __repr__(self):
         properties = ""
