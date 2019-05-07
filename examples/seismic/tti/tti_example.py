@@ -63,9 +63,9 @@ if __name__ == "__main__":
 <<<<<<< HEAD
                         choices=["noop", "basic", "advanced", "aggressive"],
 =======
-                        choices=["noop", "basic", "advanced","skewing",
-                                 "speculative", "aggressive"],
->>>>>>> dse related sims init
+                        choices=["noop", "basic", "advanced", "skewing",
+                        "speculative", "aggressive"],
+>>>>>>> Success in skewing expression by a factor of t
                         help="Devito symbolic engine (DSE) mode")
     parser.add_argument("-dle", default="advanced",
                         choices=["noop", "advanced", "speculative"],
