@@ -20,7 +20,7 @@ from examples.seismic.tti import AnisotropicWaveSolver
 
 pytestmark = skipif(['yask', 'ops'])
 
-# Tests for DLE will be needed
+# Tests for DSE will be needed
 
 
 def test_scheduling_after_rewrite():

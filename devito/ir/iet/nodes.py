@@ -26,17 +26,8 @@ __all__ = ['Node', 'Block', 'Expression', 'Element', 'Callable', 'Call', 'Condit
            'ExpressionBundle', 'Increment', 'Return']
 
 # Minor touches...
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> Init Sims diff
->>>>>>> Init Sims diff
 # First-class IET nodes
-
-
 class Node(Signer):
 
     __metaclass__ = abc.ABCMeta

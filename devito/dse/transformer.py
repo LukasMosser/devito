@@ -1,5 +1,6 @@
 from devito.ir.clusters import ClusterGroup, groupby
-from devito.dse.rewriters import BasicRewriter, AdvancedRewriter, AggressiveRewriter
+from devito.dse.rewriters import (BasicRewriter, AdvancedRewriter, AggressiveRewriter,
+                                  SkewingRewriter)
 from devito.logger import dse as log, dse_warning as warning
 from devito.parameters import configuration
 from devito.tools import flatten
@@ -7,19 +8,18 @@ from devito.parameters import configuration
 
 __all__ = ['dse_registry', 'rewrite']
 
-
-dse_registry = ('basic', 'advanced', 'aggressive')
-
+dse_registry = ('basic', 'advanced', 'aggressive', 'skewing')
+# Skewing rewriter
 modes = {
     'basic': BasicRewriter,
     'advanced': AdvancedRewriter,
+    'skewing': SkewingRewriter,
     'aggressive': AggressiveRewriter
 }
 """The DSE transformation modes."""
 
 # Possible needed FIX nsim
 MAX_SKEW_FACTOR = 8
-
 configuration.add('skew_factor', 0, range(MAX_SKEW_FACTOR))
 
 def rewrite(clusters, mode='advanced'):
@@ -55,7 +55,8 @@ def rewrite(clusters, mode='advanced'):
     if mode is None or mode == 'noop':
         return clusters
     elif mode not in dse_registry:
-        warning("Unknown rewrite mode(s) %s" % mode)
+        raise ValueError("Unknown Parameter 'mode' %s." % type(mode))
+        #dse_warning("Unknown rewrite mode(s) %s" % mode)
         return clusters
 
     # We use separate rewriters for dense and sparse clusters; sparse clusters have
