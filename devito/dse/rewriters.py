@@ -410,7 +410,7 @@ class AggressiveRewriter(AdvancedRewriter):
 class SkewingRewriter(AggressiveRewriter):
 
     def _pipeline(self, state):
-        self._loop_skew(state)
+        self._skewing(state)
         self._extract_sum_of_products(state)
         self._extract_time_invariants(state, with_cse=False)
         self._eliminate_inter_stencil_redundancies(state)
@@ -423,7 +423,7 @@ class SkewingRewriter(AggressiveRewriter):
         self._eliminate_intra_stencil_redundancies(state)
 
     @dse_pass
-    def _loop_skew(self, cluster, template, **kwargs):
+    def _skewing(self, cluster, template, **kwargs):
         """
         Function to perform only the basic skewing in order to have valid data
         dependences.
@@ -453,14 +453,15 @@ class SkewingRewriter(AggressiveRewriter):
             return cluster
 
         if cnt == 5:
-            total_int = IntervalGroup.generate('union', int_mapper[0], int_mapper[1], int_mapper[2], int_mapper[3], )
+            total_int = IntervalGroup.generate('union', int_mapper[0], int_mapper[1],
+                                               int_mapper[2], int_mapper[3])
         elif cnt in {3, 4}:
-            total_int = IntervalGroup.generate('union', int_mapper[0], int_mapper[1], int_mapper[2])
+            total_int = IntervalGroup.generate('union', int_mapper[0], int_mapper[1],
+                                               int_mapper[2])
 
-        cluster._skewed_loops = skews
-        new_iter_space = IterationSpace(total_int, sub_iterators, directions)
+        ispace = IterationSpace(total_int, sub_iterators, directions)
 
-        cluster._ispace = new_iter_space
+        cluster._ispace = ispace
         processed = xreplace_indices(cluster.exprs, mapper)
         return cluster.rebuild(processed)
 
