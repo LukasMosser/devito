@@ -25,9 +25,8 @@ __all__ = ['Node', 'Block', 'Expression', 'Element', 'Callable', 'Call', 'Condit
            'MetaCall', 'ArrayCast', 'ForeignExpression', 'HaloSpot', 'IterationTree',
            'ExpressionBundle', 'Increment', 'Return']
 
-# Minor touches...
 
-# First-class IET nodes
+
 class Node(Signer):
 
     __metaclass__ = abc.ABCMeta
@@ -353,7 +352,7 @@ class Iteration(Node):
     _traversable = ['nodes']
 
     def __init__(self, nodes, dimension, limits, offsets=None, direction=None,
-                 properties=None, pragmas=None, uindices=None, skew=None):
+                 properties=None, pragmas=None, uindices=None):
         self.nodes = as_tuple(nodes)
         self.dim = dimension
         self.index = self.dim.name

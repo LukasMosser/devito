@@ -62,6 +62,7 @@ def is_integer(value):
     """
     return isinstance(value, (int, np.integer, sympy.Integer))
 
+
 def generator():
     """
     Return a function ``f`` that generates integer numbers starting at 0

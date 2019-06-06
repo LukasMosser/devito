@@ -25,8 +25,6 @@ from devito.types import Dimension
 __all__ = ['Operator']
 
 
-# To build skewed iterations
-
 class Operator(Callable):
 
     """

@@ -1,4 +1,7 @@
 import abc
+import sympy
+
+
 from collections import OrderedDict
 from functools import reduce
 from operator import mul
@@ -8,8 +11,6 @@ from frozendict import frozendict
 
 from devito.tools import PartialOrderTuple, as_tuple, filter_ordered, toposort, is_integer
 from devito.types.dimension import TimeDimension
-import sympy
-
 
 __all__ = ['NullInterval', 'Interval', 'IntervalGroup', 'IterationSpace', 'DataSpace',
            'Forward', 'Backward', 'Any']

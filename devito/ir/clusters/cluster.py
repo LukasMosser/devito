@@ -10,7 +10,7 @@ from devito.tools import as_tuple
 
 __all__ = ["Cluster", "ClusterGroup"]
 
-# Handling of skewed loops to be added
+
 class PartialCluster(object):
 
     """
@@ -34,15 +34,13 @@ class PartialCluster(object):
         which the PartialCluster should be computed.
     """
 
-    def __init__(self, exprs, ispace, dspace, atomics=None, guards=None, skewed_loops={}):
+    def __init__(self, exprs, ispace, dspace, atomics=None, guards=None):
         self._exprs = list(ClusterizedEq(i, ispace=ispace, dspace=dspace)
                            for i in as_tuple(exprs))
-        #, skewed_loops={}This causes hanging on tests until now.To do it with caution...
         self._ispace = ispace
         self._dspace = dspace
         self._atomics = set(atomics or [])
         self._guards = guards or {}
-        self._skewed_loops = skewed_loops
 
     @property
     def exprs(self):
@@ -81,10 +79,6 @@ class PartialCluster(object):
         return self._guards
 
     @property
-    def skewed_loops(self):
-        return self._skewed_loops
-
-    @property
     def args(self):
         return (self.exprs, self.ispace, self.dspace, self.atomics, self.guards)
 
@@ -103,7 +97,7 @@ class PartialCluster(object):
     @property
     def dtype(self):
         """
-        The arithmetic data type of the . If the Cluster performs
+        The arithmetic data type of the Cluster. If the Cluster performs
         floating point arithmetic, then the expressions performing integer
         arithmetic are ignored, assuming that they are only carrying out array
         index calculations. If two expressions perform floating point
@@ -166,10 +160,6 @@ class PartialCluster(object):
     def dspace(self, val):
         self._dspace = val
 
-    @skewed_loops.setter
-    def skewed_loops(self, val):
-        self._skewed_loops = val
-
     def squash(self, other):
         """
         Concatenate the expressions in ``other`` to those in ``self``.
@@ -187,7 +177,7 @@ class Cluster(PartialCluster):
 
     """A Cluster is an immutable PartialCluster."""
 
-    def __init__(self, exprs, ispace, dspace, atomics=None, guards=None, skewed_loops={}):
+    def __init__(self, exprs, ispace, dspace, atomics=None, guards=None):
         self._exprs = exprs
         # Keep expressions ordered based on information flow
         self._exprs = tuple(ClusterizedEq(v, ispace=ispace, dspace=dspace)
@@ -196,7 +186,6 @@ class Cluster(PartialCluster):
         self._dspace = dspace
         self._atomics = frozenset(atomics or ())
         self._guards = frozendict(guards or {})
-        self._skewed_loops = skewed_loops
 
     @cached_property
     def flowgraph(self):
@@ -231,10 +220,6 @@ class Cluster(PartialCluster):
 
     @PartialCluster.dspace.setter
     def dspace(self, val):
-        raise AttributeError
-
-    @PartialCluster.skewed_loops.setter
-    def skewed_loops(self, val):
         raise AttributeError
 
     def squash(self, other):
